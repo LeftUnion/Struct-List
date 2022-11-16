@@ -6,14 +6,14 @@
 #include <stdexcept>
 
 
-template <class T>
+template <typename T>
 class Node
 {
     T value;
     Node* next;
 };
 
-template <class T>
+template <typename T>
 class list
 {
 private:
@@ -24,6 +24,9 @@ private:
     list(/* args */);
     ~list();
 public:    
+    typedef OwnIterator<int> iterator;
+    typedef OwnIterator<const int> const_iterator;
+
     Node<T>* begin() const noexcept;
     Node<T>* end() const noexcept;
     void pushBack(T value);
@@ -36,19 +39,26 @@ public:
 
 };
 
-template <class T>
+template<typename T>
+class iterator : public std::iterator<std::input_iterator_tag, T>
+{
+    friend class list;
+
+};
+
+template <typename T>
 Node<T>* list<T>::begin() const noexcept
 {
     return first;
 }
 
-template <class T>
+template <typename T>
 Node<T>* list<T>::end() const noexcept
 {
     return last;
 }
 
-template <class T>
+template <typename T>
 Node<T>* list<T>::move(int index) const
 {
     try
@@ -74,7 +84,7 @@ Node<T>* list<T>::move(int index) const
     }
 }
 
-template <class T>
+template <typename T>
 void list<T>::delFirst()
 {
     Node<T>* it = first;
@@ -86,14 +96,14 @@ void list<T>::delFirst()
     return;
 }
 
-template <class T>
+template <typename T>
 void list<T>::clear() noexcept
 {
     while (first != nullptr)
         delFirst();
 }
 
-template <class T>
+template <typename T>
 void list<T>::pushBack(T value)
 {
     try
@@ -117,13 +127,13 @@ void list<T>::pushBack(T value)
     }
 }
 
-template <class T>
+template <typename T>
 bool list<T>::isEmpty() const
 {
     return first == nullptr;
 }
 
-template <class T>
+template <typename T>
 void list<T>::insert(T value, int index)
 {
     try
@@ -165,7 +175,7 @@ void list<T>::insert(T value, int index)
 
 }
 
-template <class T>
+template <typename T>
 void list<T>::insert(T value, Node<T>* index)
 {
     try
@@ -193,7 +203,7 @@ void list<T>::insert(T value, Node<T>* index)
 
 }
 
-template <class T>
+template <typename T>
 list<T>::list()
 {
     first = nullptr;
@@ -201,7 +211,7 @@ list<T>::list()
     count = 0;
 }
 
-template <class T>
+template <typename T>
 list<T>::~list()
 {
 }
