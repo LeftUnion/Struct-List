@@ -16,14 +16,16 @@ class Node
 template <class T>
 class list
 {
-    public:
+private:
     Node<T>* first;
     Node<T>* last;
     int count;
 
     list(/* args */);
     ~list();
-    
+public:    
+    Node<T>* begin();
+    Node<T>* end();
     void pushBack(T value);
     bool isEmpty() const;
     Node<T>* move(int index) const;
@@ -31,6 +33,18 @@ class list
     void insert(T value, Node<T>* index);
 
 };
+
+template <class T>
+Node<T>* list<T>::begin()
+{
+    return first;
+}
+
+template <class T>
+Node<T>* list<T>::end()
+{
+    return last;
+}
 
 template <class T>
 Node<T>* list<T>::move(int index) const
