@@ -33,7 +33,7 @@ class list
 };
 
 template <class T>
-Node<T>* move(int index) const
+Node<T>* list<T>::move(int index) const
 {
     try
     {
@@ -96,9 +96,7 @@ void list<T>::insert(T value, int index)
         if ((count != 0) && ((index < 0) || (index >= count)))
             throw std::invalid_argument("Out of indexes!");
 
-
-        // if Exists
-        if(first == nullptr)
+        if(first == nullptr || index == count - 1)
         {
             pushBack(value);
         }
@@ -111,9 +109,11 @@ void list<T>::insert(T value, int index)
                 tmp->next = first;
                 first = tmp;
             }
-            else if ()
+            else
             {
-             
+                Node<T>* it = move(index - 1);
+                tmp->next = it->next;
+                it->next = tmp;
             }
         }
 
