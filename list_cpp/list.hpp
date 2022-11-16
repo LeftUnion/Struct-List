@@ -29,9 +29,10 @@ public:
     void pushBack(T value);
     bool isEmpty() const;
     Node<T>* move(int index) const;
+    void delFirst();
     void insert(T value, int index);
     void insert(T value, Node<T>* index);
-    void clear();
+    void clear() noexcept;
 
 };
 
@@ -71,6 +72,25 @@ Node<T>* list<T>::move(int index) const
     {
         std::cerr <<  arg.what() << std::endl;
     }
+}
+
+template <class T>
+void list<T>::delFirst()
+{
+    Node<T>* it = first;
+    if(it != nullptr)
+    {
+        first = first->next;
+        delete it;
+    }
+    return;
+}
+
+template <class T>
+void list<T>::clear() noexcept
+{
+    while (first != nullptr)
+        delFirst();
 }
 
 template <class T>
