@@ -24,24 +24,25 @@ private:
     list(/* args */);
     ~list();
 public:    
-    Node<T>* begin();
-    Node<T>* end();
+    Node<T>* begin() const;
+    Node<T>* end() const;
     void pushBack(T value);
     bool isEmpty() const;
     Node<T>* move(int index) const;
     void insert(T value, int index);
     void insert(T value, Node<T>* index);
+    void clear();
 
 };
 
 template <class T>
-Node<T>* list<T>::begin()
+Node<T>* list<T>::begin() const
 {
     return first;
 }
 
 template <class T>
-Node<T>* list<T>::end()
+Node<T>* list<T>::end() const
 {
     return last;
 }
