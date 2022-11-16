@@ -24,8 +24,8 @@ private:
     list(/* args */);
     ~list();
 public:    
-    Node<T>* begin() const;
-    Node<T>* end() const;
+    Node<T>* begin() const noexcept;
+    Node<T>* end() const noexcept;
     void pushBack(T value);
     bool isEmpty() const;
     Node<T>* move(int index) const;
@@ -36,13 +36,13 @@ public:
 };
 
 template <class T>
-Node<T>* list<T>::begin() const
+Node<T>* list<T>::begin() const noexcept
 {
     return first;
 }
 
 template <class T>
-Node<T>* list<T>::end() const
+Node<T>* list<T>::end() const noexcept
 {
     return last;
 }
