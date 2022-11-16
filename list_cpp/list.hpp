@@ -33,9 +33,8 @@ class list
 };
 
 template <class T>
-Node<T>* move(int index)
+Node<T>* move(int index) const
 {
-    
     try
     {
         if(index < 0 || index >= count)
@@ -84,7 +83,7 @@ void list<T>::pushBack(T value)
 }
 
 template <class T>
-bool list<T>::isEmpty()
+bool list<T>::isEmpty() const
 {
     return first == nullptr;
 }
