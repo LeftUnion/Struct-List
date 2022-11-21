@@ -5,9 +5,8 @@
 #include <exception>
 #include <stdexcept>
 
-
 template <typename T>
-class Node
+struct Node
 {
     T value;
     Node* next;
@@ -23,6 +22,7 @@ private:
 
     list(/* args */);
     ~list();
+
 public:    
     typedef OwnIterator<int> iterator;
     typedef OwnIterator<const int> const_iterator;
@@ -39,7 +39,7 @@ public:
 
 };
 
-template<typename T>
+template <typename T>
 class iterator : public std::iterator<std::input_iterator_tag, T>
 {
     friend class list;
@@ -74,7 +74,6 @@ Node<T>* list<T>::move(int index) const
 
             return it
         }
-        
         return nullptr;
 
     }
@@ -159,7 +158,7 @@ void list<T>::insert(T value, int index)
                 Node<T>* it = move(index - 1);
                 tmp->next = it->next;
                 it->next = tmp;
-            }
+            } 
         }
 
         count++;
@@ -214,8 +213,7 @@ list<T>::list()
 template <typename T>
 list<T>::~list()
 {
+
 }
-
-
 
 #endif // LIST_HPP
