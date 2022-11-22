@@ -15,36 +15,56 @@ struct Node
 template <typename T>
 class list
 {
+public:
+    typedef OwnIterator<int> iterator;
+    typedef OwnIterator<const int> const_iterator;
+
 private:
     Node<T>* first;
     Node<T>* last;
     int count;
 
-    list(/* args */);
-    ~list();
-
 public:    
-    typedef OwnIterator<int> iterator;
-    typedef OwnIterator<const int> const_iterator;
+
+    list();
+    ~list();
 
     Node<T>* begin() const noexcept;
     Node<T>* end() const noexcept;
-    void pushBack(T value);
+
+    int size() const noexcept;
     bool isEmpty() const;
-    Node<T>* move(int index) const;
+    void clear() noexcept;
+
+    void pushBack(T value);
+
+    void eraseFirst();
     void erase(int index);
+    
     void insert(T value, int index);
     void insert(T value, Node<T>* index);
-    void clear() noexcept;
+
+    void print() const noexcept;
+
+private:
+    Node<T>* move(int index) const;
 
 };
 
 template <typename T>
-class iterator : public std::iterator<std::input_iterator_tag, T>
+list<T>::list()
 {
-    friend class list;
+    first = nullptr;
+    last = nullptr;
+    count = 0;
+}
 
-};
+template <typename T>
+list<T>::~list()
+{
+    while(first != nullptr)
+        eraseFirst();
+}
 
 template <typename T>
 Node<T>* list<T>::begin() const noexcept
@@ -56,6 +76,12 @@ template <typename T>
 Node<T>* list<T>::end() const noexcept
 {
     return last;
+}
+
+template <typename T>
+int list<T>::size() const noexcept
+{
+    return count;
 }
 
 template <typename T>
@@ -84,44 +110,9 @@ Node<T>* list<T>::move(int index) const
 }
 
 template <typename T>
-void list<T>::erase(int index)
+bool list<T>::isEmpty() const
 {
-    if(first == nullptr)
-        return; // TODO throw error 
-    
-    Node<T>* it;
-    if(index == 0)
-    {
-        it = first;
-        first = first->next;
-        delete it;
-    }
-    else
-    {
-        Node<T>* prev = move(index - 1);
-        it = move(index);
-        prev->next = it->next;
-        delete it;
-    }
-}
-
-template <typename T>
-void list<T>::delFirst()
-{
-    Node<T>* it = first;
-    if(it != nullptr)
-    {
-        first = first->next;
-        delete it;
-    }
-    return;
-}
-
-template <typename T>
-void list<T>::clear() noexcept
-{
-    while (first != nullptr)
-        delFirst();
+    return first == nullptr;
 }
 
 template <typename T>
@@ -146,12 +137,6 @@ void list<T>::pushBack(T value)
     {
         std::cerr << err.what() << std::endl;
     }
-}
-
-template <typename T>
-bool list<T>::isEmpty() const
-{
-    return first == nullptr;
 }
 
 template <typename T>
@@ -225,17 +210,62 @@ void list<T>::insert(T value, Node<T>* index)
 }
 
 template <typename T>
-list<T>::list()
+void list<T>::eraseFirst()
 {
-    first = nullptr;
-    last = nullptr;
-    count = 0;
+    Node<T>* it = first;
+    if(it != nullptr)
+    {
+        first = first->next;
+        delete it;
+    }
+    return;
 }
 
 template <typename T>
-list<T>::~list()
+void list<T>::erase(int index)
 {
-
+    if(first == nullptr)
+        return; // TODO throw error 
+    
+    Node<T>* it;
+    if(index == 0)
+    {
+        it = first;
+        first = first->next;
+        delete it;
+    }
+    else
+    {
+        Node<T>* prev = move(index - 1);
+        it = move(index);
+        prev->next = it->next;
+        delete it;
+    }
 }
+
+template <typename T>
+void list<T>::clear() noexcept
+{
+    while (first != nullptr)
+        eraseFirst();
+}
+
+template <typename T>
+void list<T>::print() const noexcept
+{
+    Node<T>* it = first;
+    while (it != nullptr)
+    {
+        std::cout << it;
+        it = it->next;
+    }
+}
+
+template <typename T>
+class iterator : public std::iterator<std::input_iterator_tag, T>
+{
+    friend class list;
+
+};
 
 #endif // LIST_HPP
