@@ -32,7 +32,7 @@ public:
     void pushBack(T value);
     bool isEmpty() const;
     Node<T>* move(int index) const;
-    void delFirst();
+    void erase(int index);
     void insert(T value, int index);
     void insert(T value, Node<T>* index);
     void clear() noexcept;
@@ -80,6 +80,28 @@ Node<T>* list<T>::move(int index) const
     catch(std::invalid_argument arg)
     {
         std::cerr <<  arg.what() << std::endl;
+    }
+}
+
+template <typename T>
+void list<T>::erase(int index)
+{
+    if(first == nullptr)
+        return; // TODO throw error 
+    
+    Node<T>* it;
+    if(index == 0)
+    {
+        it = first;
+        first = first->next;
+        delete it;
+    }
+    else
+    {
+        Node<T>* prev = move(index - 1);
+        it = move(index);
+        prev->next = it->next;
+        delete it;
     }
 }
 
